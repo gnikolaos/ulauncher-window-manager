@@ -1,0 +1,19 @@
+{
+  "required_api_version": "2",
+  "name": "Window Manager",
+  "description": "Window manager for Ulauncher",
+  "developer_name": "gnikolaos",
+  "icon": "images/icon.svg",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "wm_kw",
+      "type": "keyword",
+      "name": "Window Manager",
+      "description": "do stuff with windows",
+      "default_value": "wm"
+    }
+  ]
+}
