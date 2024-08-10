@@ -3,7 +3,7 @@
   "name": "Window Manager",
   "description": "Window manager for Ulauncher",
   "developer_name": "gnikolaos",
-  "icon": "images/icon.svg",
+  "icon": "images/wm-logo.svg",
   "options": {
     "query_debounce": 0.1
   },
