@@ -1,91 +1,43 @@
 import logging
+import threading
+from typing import Literal, Tuple, Union
 
-import ulauncher.utils.display as display
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
-from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
-from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
-from ulauncher.api.shared.event import ItemEnterEvent, KeywordQueryEvent
-from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
+from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
+from ulauncher.api.shared.event import KeywordQueryEvent
 
 import monitor_helper as mh
 from gnome_windows_client import GnomeWindowsExtensionClient
 
 logger = logging.getLogger(__name__)
 
+# Window Manager actions types
+MoveResizeAction = Tuple[Literal["move-resize"], int, int, int, int]
+MaximizeAction = Tuple[Literal["maximize"]]
+UnmaximizeAction = Tuple[Literal["unmaximize"]]
+
+WindowAction = Union[MoveResizeAction, MaximizeAction, UnmaximizeAction]
+
 
 class WindowManagerExtension(Extension):
     def __init__(self):
         super().__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
-        self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
-        items = []
+        keyword = event.get_keyword()
 
-        # Add window management options
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Move Up",
-                description="Move the focused window to the top edge of the screen",
-                on_enter=ExtensionCustomAction({"action": "up"}),
-            )
-        )
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Move Down",
-                description="Move the focused window to the bottom edge of the screen",
-                on_enter=ExtensionCustomAction({"action": "down"}),
-            )
-        )
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Move Left",
-                description="Move the focused window to the left edge of the screen",
-                on_enter=ExtensionCustomAction({"action": "left"}),
-            )
-        )
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Move Right",
-                description="Move the focused window to the right edge of the screen",
-                on_enter=ExtensionCustomAction({"action": "right"}),
-            )
-        )
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Maximize",
-                description="Maximize the focused window",
-                on_enter=ExtensionCustomAction({"action": "maximize"}),
-            )
-        )
-        items.append(
-            ExtensionResultItem(
-                icon="images/wm-logo.svg",
-                name="Unmaximize",
-                description="Unmaximize the focused window",
-                on_enter=ExtensionCustomAction({"action": "unmaximize"}),
-            )
-        )
-
-        return RenderResultListAction(items)
+        for action, kw in extension.preferences.items():
+            if kw == keyword:
+                hide_window_action = HideWindowAction()
+                threading.Timer(0.01, WindowManagerAction, args=[action]).start()
+                return hide_window_action
 
 
-class ItemEnterEventListener(EventListener):
-    def on_event(self, event, extension):
-        data = event.get_data()
-        wm_action = data["action"]
-        WindowManagerAction(wm_action)
-
-
-def WindowManagerAction(wm_action):
+def WindowManagerAction(action):
     monitor = mh.get_monitor_of_focused_window(client)
     if monitor is None:
         logger.error("Failed to get monitor details")
@@ -94,45 +46,75 @@ def WindowManagerAction(wm_action):
     # TODO: fix that!
     system_bar_height = 34
 
-    wm_actions = {
-        "left": (
+    window_manager_actions: dict[str, WindowAction] = {
+        "top-half": (
             "move-resize",
-            str(monitor.x),
-            str(monitor.y + system_bar_height),
-            str(monitor.width // 2),
-            str(monitor.height - system_bar_height),
+            monitor.x,
+            monitor.y + system_bar_height,
+            monitor.width,
+            (monitor.height - system_bar_height) // 2,
         ),
-        "right": (
+        "bottom-half": (
             "move-resize",
-            str(monitor.x + (monitor.width // 2)),
-            str(monitor.y + system_bar_height),
-            str(monitor.width // 2),
-            str(monitor.height - system_bar_height),
+            monitor.x,
+            monitor.y + system_bar_height + (monitor.height - system_bar_height) // 2,
+            monitor.width,
+            (monitor.height - system_bar_height) // 2,
         ),
-        "up": (
+        "left-half": (
             "move-resize",
-            str(monitor.x),
-            str(monitor.y + system_bar_height),
-            str(monitor.width),
-            str((monitor.height - system_bar_height) // 2),
+            monitor.x,
+            monitor.y + system_bar_height,
+            int(monitor.width / 2),
+            monitor.height - system_bar_height,
         ),
-        "down": (
+        "right-half": (
             "move-resize",
-            str(monitor.x),
-            str(
-                monitor.y
-                + system_bar_height
-                + (monitor.height - system_bar_height) // 2
-            ),
-            str(monitor.width),
-            str((monitor.height - system_bar_height) // 2),
+            monitor.x + int(monitor.width / 2),
+            monitor.y + system_bar_height,
+            int(monitor.width / 2),
+            monitor.height - system_bar_height,
+        ),
+        "center": (
+            "move-resize",
+            monitor.x + int(monitor.width / 4),
+            monitor.y
+            + system_bar_height
+            + int((monitor.height - system_bar_height) / 4),
+            int(monitor.width / 2),
+            int((monitor.height - system_bar_height) / 2),
+        ),
+        "center-half": (
+            "move-resize",
+            monitor.x + int(monitor.width / 4),
+            monitor.y + system_bar_height,
+            int(monitor.width / 2),
+            monitor.height - system_bar_height,
+        ),
+        "center-three-fourths": (
+            "move-resize",
+            monitor.x + int(monitor.width / 8),
+            monitor.y
+            + system_bar_height
+            + int((monitor.height - system_bar_height) / 8),
+            int((monitor.width * 3) / 4),
+            int((monitor.height - system_bar_height) * 3 / 4),
+        ),
+        "almost-maximize": (
+            "move-resize",
+            monitor.x + int(monitor.width * 0.02),
+            monitor.y
+            + system_bar_height
+            + int((monitor.height - system_bar_height) * 0.02),
+            int(monitor.width * 0.96),
+            int((monitor.height - system_bar_height) * 0.96),
         ),
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
     }
 
-    if wm_action in wm_actions:
-        selected_action = wm_actions[wm_action]
+    if action in window_manager_actions:
+        selected_action = window_manager_actions[action]
 
         focused_window_id = client.get_focused_window_id()
         if focused_window_id is None:
@@ -142,6 +124,9 @@ def WindowManagerAction(wm_action):
         if selected_action[0] == "move-resize":
             # Extract action and coordinates from directions dictionary
             _, x, y, width, height = selected_action
+            logger.info(
+                f"selected_action details: x:{x}, y:{y}, width:{width}, height:{height}"
+            )
             client.move_resize(
                 focused_window_id, int(x), int(y), int(width), int(height)
             )

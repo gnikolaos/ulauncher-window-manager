@@ -4,16 +4,76 @@
   "description": "Window manager for Ulauncher",
   "developer_name": "gnikolaos",
   "icon": "images/wm-logo.svg",
-  "options": {
-    "query_debounce": 0.1
-  },
   "preferences": [
     {
-      "id": "wm_kw",
+      "id": "top-half",
       "type": "keyword",
-      "name": "Window Manager",
-      "description": "do stuff with windows",
-      "default_value": "wm"
+      "name": "Top Half",
+      "default_value": "Top Half",
+      "description": "Move focused window to the top half of the screen"
+    },
+    {
+      "id": "bottom-half",
+      "type": "keyword",
+      "name": "Bottom Half",
+      "default_value": "Bottom Half",
+      "description": "Move focused window to the bottom half of the screen"
+    },
+    {
+      "id": "left-half",
+      "type": "keyword",
+      "name": "Left Half",
+      "default_value": "Left Half",
+      "description": "Moe focused window to the left half of the screen"
+    },
+    {
+      "id": "right-half",
+      "type": "keyword",
+      "name": "Right Half",
+      "default_value": "Right Half",
+      "description": "Move focused window to the right half of the screen"
+    },
+    {
+      "id": "center",
+      "type": "keyword",
+      "name": "Center",
+      "default_value": "Center",
+      "description": "Move focused window to the center of the screen"
+    },
+    {
+      "id": "center-half",
+      "type": "keyword",
+      "name": "Center Half",
+      "default_value": "Center Half",
+      "description": "Move focused window to the center half of the screen"
+    },
+    {
+      "id": "center-three-fourths",
+      "type": "keyword",
+      "name": "Center Three Fourths",
+      "default_value": "Center Three Fourths",
+      "description": "Move focused window to the center three fourths of the screen"
+    },
+    {
+      "id": "almost-maximize",
+      "type": "keyword",
+      "name": "Almost Maximize",
+      "default_value": "Almost Maximize",
+      "description": "Almost maximize focused window"
+    },
+    {
+      "id": "maximize",
+      "type": "keyword",
+      "name": "Maximize",
+      "default_value": "Maximize",
+      "description": "Maximize focused window"
+    },
+    {
+      "id": "unmaximize",
+      "type": "keyword",
+      "name": "Unmaximize",
+      "default_value": "Unmaximize",
+      "description": "Unmaximize focused window"
     }
   ]
 }
