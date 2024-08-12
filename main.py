@@ -65,40 +65,66 @@ def WindowManagerAction(action):
             "move-resize",
             monitor.x,
             monitor.y + system_bar_height,
-            int(monitor.width / 2),
+            monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "right-half": (
             "move-resize",
-            monitor.x + int(monitor.width / 2),
+            monitor.x + monitor.width // 2,
             monitor.y + system_bar_height,
-            int(monitor.width / 2),
+            monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "center": (
             "move-resize",
-            monitor.x + int(monitor.width / 4),
+            monitor.x + monitor.width // 4,
             monitor.y
-            + system_bar_height
-            + int((monitor.height - system_bar_height) / 4),
-            int(monitor.width / 2),
-            int((monitor.height - system_bar_height) / 2),
+            + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
+            monitor.width // 2,
+            int((monitor.height - system_bar_height) * 0.85),
         ),
         "center-half": (
             "move-resize",
-            monitor.x + int(monitor.width / 4),
+            monitor.x + monitor.width // 4,
             monitor.y + system_bar_height,
-            int(monitor.width / 2),
+            monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "center-three-fourths": (
             "move-resize",
-            monitor.x + int(monitor.width / 8),
+            monitor.x + monitor.width // 8,
             monitor.y
-            + system_bar_height
-            + int((monitor.height - system_bar_height) / 8),
-            int((monitor.width * 3) / 4),
-            int((monitor.height - system_bar_height) * 3 / 4),
+            + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
+            (monitor.width * 3) // 4,
+            int((monitor.height - system_bar_height) * 0.85),
+        ),
+        "first-three-fourths": (
+            "move-resize",
+            monitor.x,
+            monitor.y + system_bar_height,
+            int(monitor.width * 0.75),
+            monitor.height - system_bar_height,
+        ),
+        "last-three-fourths": (
+            "move-resize",
+            monitor.x + int(monitor.width * 0.25),
+            monitor.y + system_bar_height,
+            int(monitor.width * 0.75),
+            monitor.height - system_bar_height,
+        ),
+        "first-fourth": (
+            "move-resize",
+            monitor.x,
+            monitor.y + system_bar_height,
+            int(monitor.width * 0.25),
+            monitor.height - system_bar_height,
+        ),
+        "last-fourth": (
+            "move-resize",
+            monitor.x + int(monitor.width * 0.75),
+            monitor.y + system_bar_height,
+            int(monitor.width * 0.25),
+            monitor.height - system_bar_height,
         ),
         "almost-maximize": (
             "move-resize",
@@ -127,9 +153,7 @@ def WindowManagerAction(action):
             logger.info(
                 f"selected_action details: x:{x}, y:{y}, width:{width}, height:{height}"
             )
-            client.move_resize(
-                focused_window_id, int(x), int(y), int(width), int(height)
-            )
+            client.move_resize(focused_window_id, x, y, width, height)
         elif selected_action[0] == "maximize":
             client.maximize(focused_window_id)
         elif selected_action[0] == "unmaximize":

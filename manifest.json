@@ -55,6 +55,34 @@
       "description": "Move focused window to the center three fourths of the screen"
     },
     {
+      "id": "first-three-fourths",
+      "type": "keyword",
+      "name": "First Three Fourths",
+      "default_value": "First Three Fourths",
+      "description": "Move focused window to the first three fourths of the screen"
+    },
+    {
+      "id": "last-three-fourths",
+      "type": "keyword",
+      "name": "Last Three Fourths",
+      "default_value": "Last Three Fourths",
+      "description": "Move focused window to the last three fourths of the screen"
+    },
+    {
+      "id": "first-fourth",
+      "type": "keyword",
+      "name": "First Fourth",
+      "default_value": "First Fourth",
+      "description": "Move focused window to the first fourth of the screen"
+    },
+    {
+      "id": "last-fourth",
+      "type": "keyword",
+      "name": "Last Fourth",
+      "default_value": "Last Fourth",
+      "description": "Move focused window to the last fourth of the screen"
+    },
+    {
       "id": "almost-maximize",
       "type": "keyword",
       "name": "Almost Maximize",

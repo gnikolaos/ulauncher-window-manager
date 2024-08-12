@@ -12,9 +12,10 @@ As the extension evolves and reaches a stable state, I plan to abstract its func
 
 - Move and Resize Up/Down/Left/Right: Move the focused window to the edge of the screen in any direction.
 - Move and Resize Center/Center Half/Center Three Fourths: Move and Resize the focused window to the center of the screen.
-- Almost Maximize: Resizes the focused window to cover 96% of the screen's width and height, leaving a 2% margin around all sides.
+- Move and Resize First Fourth/First Three Fourths/Last Fourth/Last Three Fourths: Move and Resize the focused window to the sides of the screen.
+- Almost Maximize: Resize the focused window to cover 96% of the screen's width and height, leaving a 2% margin around all sides.
 - Maximize: Maximize the focused window to fit the screen.
-- Unmaximize: Restores the focused window to its previous state.
+- Unmaximize: Restore the focused window to its previous state.
 
 
 ## How it works (primarily for extension developers)
