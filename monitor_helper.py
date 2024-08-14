@@ -65,3 +65,25 @@ def get_monitor_of_focused_window(
             return monitor
 
     return None
+
+
+def get_system_bar_height() -> int:
+    try:
+        # Run xprop command and capture output
+        result = subprocess.run(
+            ["xprop", "-root", "_NET_WORKAREA"], capture_output=True, text=True
+        )
+        output = result.stdout
+
+        # Extract system bar height using regex
+        match = re.search(
+            r"_NET_WORKAREA\(CARDINAL\) = (\d+), (\d+), (\d+), (\d+)", output
+        )
+        if match:
+            top_edge = int(match.group(2))
+            return top_edge
+        else:
+            raise ValueError("Could not determine system bar height from xprop output")
+
+    except subprocess.CalledProcessError:
+        return 48  # Return a default value if the command fails

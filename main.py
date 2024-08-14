@@ -43,8 +43,7 @@ def WindowManagerAction(action):
         logger.error("Failed to get monitor details")
         return
 
-    # TODO: fix that!
-    system_bar_height = 34
+    system_bar_height = mh.get_system_bar_height()
 
     window_manager_actions: dict[str, WindowAction] = {
         "top-half": (
