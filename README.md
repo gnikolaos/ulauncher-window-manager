@@ -1,11 +1,15 @@
 # Ulauncher Window Manager
 
-An extension for organizing and controlling your open windows.![App Screenshot](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-cover.jpg?raw=true)
+An extension for organizing and controlling your open windows.![App Cover](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-cover.jpg?raw=true)
 
 Work in Progress: Expect Frequent Updates.
 
 This extension is currently targeting GNOME. To use it, you need to have the [Window Calls GNOME extension](https://extensions.gnome.org/extension/4724/window-calls/) installed.
 As the extension evolves and reaches a stable state, I plan to abstract its functionality to support additional desktop environments.
+
+
+## Demo
+![App Demo](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-demo.gif?raw=true)
 
 
 ## Features
