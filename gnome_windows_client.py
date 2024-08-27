@@ -42,10 +42,10 @@ class GnomeWindowsExtensionClient:
     def __init__(self):
         self.bus = SessionBus()
         self.proxy = self.bus.get_object(
-            "org.gnome.Shell", "/org/gnome/Shell/Extensions/WindowCall"
+            "org.gnome.Shell", "/org/gnome/Shell/Extensions/WindowCalls"
         )
         self.interface = Interface(
-            self.proxy, dbus_interface="org.gnome.Shell.Extensions.WindowCall"
+            self.proxy, dbus_interface="org.gnome.Shell.Extensions.WindowCalls"
         )
 
     def _parse_response_to_object(

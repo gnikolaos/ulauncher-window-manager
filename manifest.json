@@ -102,6 +102,13 @@
       "name": "Unmaximize",
       "default_value": "Unmaximize",
       "description": "Unmaximize focused window"
+    },
+    {
+      "id": "close",
+      "type": "keyword",
+      "name": "Close",
+      "default_value": "Close",
+      "description": "Close focused window"
     }
   ]
 }
