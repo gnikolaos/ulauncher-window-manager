@@ -15,24 +15,19 @@ class Window:
     frame_type: int
     window_type: int
     focus: bool
-    width: Optional[int] = None
-    height: Optional[int] = None
-    x: Optional[int] = None
-    y: Optional[int] = None
     maximized: Optional[int] = None
-    display: Optional[dict] = None
     layer: Optional[int] = None
     monitor: Optional[int] = None
     role: Optional[str] = None
     title: Optional[str] = None
-    canclose: Optional[bool] = None
-    canmaximize: Optional[bool] = None
-    canminimize: Optional[bool] = None
-    moveable: Optional[bool] = None
-    resizeable: Optional[bool] = None
-    area: Optional[dict] = None
-    area_all: Optional[dict] = None
-    area_cust: Optional[dict] = None
+    canClose: Optional[bool] = None
+    canMaximize: Optional[bool] = None
+    canMinimize: Optional[bool] = None
+    canMove: Optional[bool] = None
+    canResize: Optional[bool] = None
+    currentMonitorWorkArea: Optional[dict] = None
+    allMonitorsWorkArea: Optional[dict] = None
+    windowArea: Optional[dict] = None
 
 
 @dataclass
@@ -47,10 +42,10 @@ class GnomeWindowsExtensionClient:
     def __init__(self):
         self.bus = SessionBus()
         self.proxy = self.bus.get_object(
-            "org.gnome.Shell", "/org/gnome/Shell/Extensions/Windows"
+            "org.gnome.Shell", "/org/gnome/Shell/Extensions/WindowCall"
         )
         self.interface = Interface(
-            self.proxy, dbus_interface="org.gnome.Shell.Extensions.Windows"
+            self.proxy, dbus_interface="org.gnome.Shell.Extensions.WindowCall"
         )
 
     def _parse_response_to_object(
@@ -86,8 +81,8 @@ class GnomeWindowsExtensionClient:
     def move_to_workspace(self, winid: int, workspace_num: int):
         self.interface.MoveToWorkspace(winid, workspace_num)
 
-    def move_resize(self, winid: int, x: int, y: int, width: int, height: int):
-        self.interface.MoveResize(winid, x, y, width, height)
+    def place(self, winid: int, x: int, y: int, width: int, height: int):
+        self.interface.Place(winid, x, y, width, height)
 
     def resize(self, winid: int, width: int, height: int):
         self.interface.Resize(winid, width, height)

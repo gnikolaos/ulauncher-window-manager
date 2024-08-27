@@ -13,11 +13,12 @@ from gnome_windows_client import GnomeWindowsExtensionClient
 logger = logging.getLogger(__name__)
 
 # Window Manager actions types
-MoveResizeAction = Tuple[Literal["move-resize"], int, int, int, int]
+PlaceAction = Tuple[Literal["place"], int, int, int, int]
 MaximizeAction = Tuple[Literal["maximize"]]
 UnmaximizeAction = Tuple[Literal["unmaximize"]]
+CloseAction = Tuple[Literal["close"]]
 
-WindowAction = Union[MoveResizeAction, MaximizeAction, UnmaximizeAction]
+WindowAction = Union[PlaceAction, MaximizeAction, UnmaximizeAction, CloseAction]
 
 
 class WindowManagerExtension(Extension):
@@ -47,35 +48,35 @@ def WindowManagerAction(action):
 
     window_manager_actions: dict[str, WindowAction] = {
         "top-half": (
-            "move-resize",
+            "place",
             monitor.x,
             monitor.y + system_bar_height,
             monitor.width,
             (monitor.height - system_bar_height) // 2,
         ),
         "bottom-half": (
-            "move-resize",
+            "place",
             monitor.x,
             monitor.y + system_bar_height + (monitor.height - system_bar_height) // 2,
             monitor.width,
             (monitor.height - system_bar_height) // 2,
         ),
         "left-half": (
-            "move-resize",
+            "place",
             monitor.x,
             monitor.y + system_bar_height,
             monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "right-half": (
-            "move-resize",
+            "place",
             monitor.x + monitor.width // 2,
             monitor.y + system_bar_height,
             monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "center": (
-            "move-resize",
+            "place",
             monitor.x + monitor.width // 4,
             monitor.y
             + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
@@ -83,14 +84,14 @@ def WindowManagerAction(action):
             int((monitor.height - system_bar_height) * 0.85),
         ),
         "center-half": (
-            "move-resize",
+            "place",
             monitor.x + monitor.width // 4,
             monitor.y + system_bar_height,
             monitor.width // 2,
             monitor.height - system_bar_height,
         ),
         "center-three-fourths": (
-            "move-resize",
+            "place",
             monitor.x + monitor.width // 8,
             monitor.y
             + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
@@ -98,35 +99,35 @@ def WindowManagerAction(action):
             int((monitor.height - system_bar_height) * 0.85),
         ),
         "first-three-fourths": (
-            "move-resize",
+            "place",
             monitor.x,
             monitor.y + system_bar_height,
             int(monitor.width * 0.75),
             monitor.height - system_bar_height,
         ),
         "last-three-fourths": (
-            "move-resize",
+            "place",
             monitor.x + int(monitor.width * 0.25),
             monitor.y + system_bar_height,
             int(monitor.width * 0.75),
             monitor.height - system_bar_height,
         ),
         "first-fourth": (
-            "move-resize",
+            "place",
             monitor.x,
             monitor.y + system_bar_height,
             int(monitor.width * 0.25),
             monitor.height - system_bar_height,
         ),
         "last-fourth": (
-            "move-resize",
+            "place",
             monitor.x + int(monitor.width * 0.75),
             monitor.y + system_bar_height,
             int(monitor.width * 0.25),
             monitor.height - system_bar_height,
         ),
         "almost-maximize": (
-            "move-resize",
+            "place",
             monitor.x + int(monitor.width * 0.02),
             monitor.y
             + system_bar_height
@@ -136,6 +137,7 @@ def WindowManagerAction(action):
         ),
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
+        "close": ("close",),
     }
 
     if action in window_manager_actions:
@@ -146,17 +148,22 @@ def WindowManagerAction(action):
             logger.error("No focused window id found")
             return
 
-        if selected_action[0] == "move-resize":
-            # Extract action and coordinates from directions dictionary
-            _, x, y, width, height = selected_action
-            logger.info(
-                f"selected_action details: x:{x}, y:{y}, width:{width}, height:{height}"
-            )
-            client.move_resize(focused_window_id, x, y, width, height)
-        elif selected_action[0] == "maximize":
-            client.maximize(focused_window_id)
-        elif selected_action[0] == "unmaximize":
-            client.unmaximize(focused_window_id)
+        match selected_action[0]:
+            case "place":
+                # Extract action and coordinates from directions dictionary
+                _, x, y, width, height = selected_action
+                logger.info(
+                    f"selected_action details: x:{x}, y:{y}, width:{width}, height:{height}"
+                )
+                client.place(focused_window_id, x, y, width, height)
+            case "maximize":
+                client.maximize(focused_window_id)
+            case "unmaximize":
+                client.unmaximize(focused_window_id)
+            case "close":
+                client.close(focused_window_id)
+            case _:
+                logger.error("Invalid action")
 
 
 if __name__ == "__main__":
