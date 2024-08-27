@@ -4,7 +4,7 @@ An extension for organizing and controlling your open windows.![App Cover](https
 
 Work in Progress: Expect Frequent Updates.
 
-This extension is currently targeting GNOME. To use it, you need to have the [Window Calls GNOME extension](https://extensions.gnome.org/extension/4724/window-calls/) installed.
+This extension is currently targeting GNOME. To use it, you need to have the [Gnome Window Calls extension](https://github.com/gnikolaos/gnome-window-calls) installed.
 As the extension evolves and reaches a stable state, I plan to abstract its functionality to support additional desktop environments.
 
 
