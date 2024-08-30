@@ -5,7 +5,7 @@ from typing import List, Optional
 
 import ulauncher.utils.display as display
 
-from gnome_windows_client import GnomeWindowsExtensionClient
+from gnome_windows_client import GnomeWindowsExtensionClient, MtkRect
 
 
 @dataclass
@@ -16,6 +16,12 @@ class Monitor:
     width: int
     height: int
     isPrimary: bool
+
+
+@dataclass
+class MonitorOfFocusedWindow:
+    id: int
+    workArea: MtkRect
 
 
 def get_active_monitors() -> List[Monitor]:
@@ -49,22 +55,16 @@ def get_active_monitors() -> List[Monitor]:
 
 def get_monitor_of_focused_window(
     client: GnomeWindowsExtensionClient,
-) -> Optional[Monitor]:
+) -> Optional[MonitorOfFocusedWindow]:
     focused_window_id = client.get_focused_window_id()
     if not focused_window_id:
         return None
 
-    focused_window_monitor_id = client.get_window_details(focused_window_id).monitor
-    if focused_window_monitor_id is None:
-        return None
+    focused_window_details = client.get_window_details(focused_window_id)
+    id = focused_window_details.monitor
+    workArea = focused_window_details.currentMonitorWorkArea
 
-    active_monitors = get_active_monitors()
-
-    for monitor in active_monitors:
-        if monitor.id == focused_window_monitor_id:
-            return monitor
-
-    return None
+    return MonitorOfFocusedWindow(id, workArea)
 
 
 def get_system_bar_height() -> int:

@@ -39,101 +39,97 @@ class KeywordQueryEventListener(EventListener):
 
 
 def WindowManagerAction(action):
-    monitor = mh.get_monitor_of_focused_window(client)
-    if monitor is None:
-        logger.error("Failed to get monitor details")
+    monitor_geometry = client.get_focused_monitor_details().geometry
+    monitor_of_focus = mh.get_monitor_of_focused_window(client)
+    if monitor_of_focus is None:
+        logger.error("Cannot find the monitor of the focused window")
         return
-
-    system_bar_height = mh.get_system_bar_height()
+    monitor_work_area = monitor_of_focus.workArea
 
     window_manager_actions: dict[str, WindowAction] = {
         "top-half": (
             "place",
-            monitor.x,
-            monitor.y + system_bar_height,
-            monitor.width,
-            (monitor.height - system_bar_height) // 2,
+            monitor_geometry.x,
+            monitor_work_area.y,
+            monitor_geometry.width,
+            monitor_work_area.height // 2,
         ),
         "bottom-half": (
             "place",
-            monitor.x,
-            monitor.y + system_bar_height + (monitor.height - system_bar_height) // 2,
-            monitor.width,
-            (monitor.height - system_bar_height) // 2,
+            monitor_geometry.x,
+            monitor_work_area.y + monitor_work_area.height // 2,
+            monitor_geometry.width,
+            monitor_work_area.height // 2,
         ),
         "left-half": (
             "place",
-            monitor.x,
-            monitor.y + system_bar_height,
-            monitor.width // 2,
-            monitor.height - system_bar_height,
+            monitor_geometry.x,
+            monitor_work_area.y,
+            monitor_geometry.width // 2,
+            monitor_work_area.height,
         ),
         "right-half": (
             "place",
-            monitor.x + monitor.width // 2,
-            monitor.y + system_bar_height,
-            monitor.width // 2,
-            monitor.height - system_bar_height,
+            monitor_geometry.x + monitor_geometry.width // 2,
+            monitor_work_area.y,
+            monitor_geometry.width // 2,
+            monitor_work_area.height,
         ),
         "center": (
             "place",
-            monitor.x + monitor.width // 4,
-            monitor.y
-            + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
-            monitor.width // 2,
-            int((monitor.height - system_bar_height) * 0.85),
+            monitor_geometry.x + monitor_geometry.width // 4,
+            monitor_work_area.y + monitor_work_area.height // 4,
+            monitor_geometry.width // 2,
+            monitor_work_area.height // 2,
         ),
         "center-half": (
             "place",
-            monitor.x + monitor.width // 4,
-            monitor.y + system_bar_height,
-            monitor.width // 2,
-            monitor.height - system_bar_height,
+            monitor_geometry.x + monitor_geometry.width // 4,
+            monitor_work_area.y,
+            monitor_geometry.width // 2,
+            monitor_work_area.height,
         ),
         "center-three-fourths": (
             "place",
-            monitor.x + monitor.width // 8,
-            monitor.y
-            + int(system_bar_height + (monitor.height - system_bar_height) * 0.075),
-            (monitor.width * 3) // 4,
-            int((monitor.height - system_bar_height) * 0.85),
+            monitor_geometry.x + monitor_geometry.width // 8,
+            monitor_work_area.y + int(monitor_work_area.height * 0.075),
+            (monitor_geometry.width * 3) // 4,
+            int(monitor_work_area.height * 0.85),
         ),
         "first-three-fourths": (
             "place",
-            monitor.x,
-            monitor.y + system_bar_height,
-            int(monitor.width * 0.75),
-            monitor.height - system_bar_height,
+            monitor_geometry.x,
+            monitor_work_area.y,
+            int(monitor_geometry.width * 0.75),
+            monitor_work_area.height,
         ),
         "last-three-fourths": (
             "place",
-            monitor.x + int(monitor.width * 0.25),
-            monitor.y + system_bar_height,
-            int(monitor.width * 0.75),
-            monitor.height - system_bar_height,
+            monitor_geometry.x + int(monitor_geometry.width * 0.25),
+            monitor_work_area.y,
+            int(monitor_geometry.width * 0.75),
+            monitor_work_area.height,
         ),
         "first-fourth": (
             "place",
-            monitor.x,
-            monitor.y + system_bar_height,
-            int(monitor.width * 0.25),
-            monitor.height - system_bar_height,
+            monitor_geometry.x,
+            monitor_work_area.y,
+            int(monitor_geometry.width * 0.25),
+            monitor_work_area.height,
         ),
         "last-fourth": (
             "place",
-            monitor.x + int(monitor.width * 0.75),
-            monitor.y + system_bar_height,
-            int(monitor.width * 0.25),
-            monitor.height - system_bar_height,
+            monitor_geometry.x + int(monitor_geometry.width * 0.75),
+            monitor_work_area.y,
+            int(monitor_geometry.width * 0.25),
+            monitor_work_area.height,
         ),
         "almost-maximize": (
             "place",
-            monitor.x + int(monitor.width * 0.02),
-            monitor.y
-            + system_bar_height
-            + int((monitor.height - system_bar_height) * 0.02),
-            int(monitor.width * 0.96),
-            int((monitor.height - system_bar_height) * 0.96),
+            monitor_geometry.x + int(monitor_geometry.width * 0.02),
+            monitor_work_area.y + int(monitor_work_area.height * 0.02),
+            int(monitor_geometry.width * 0.96),
+            int(monitor_work_area.height * 0.96),
         ),
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
@@ -162,8 +158,6 @@ def WindowManagerAction(action):
                 client.unmaximize(focused_window_id)
             case "close":
                 client.close(focused_window_id)
-            case _:
-                logger.error("Invalid action")
 
 
 if __name__ == "__main__":
