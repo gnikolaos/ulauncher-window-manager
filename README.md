@@ -4,22 +4,29 @@ An extension for organizing and controlling your open windows.![App Cover](https
 
 Work in Progress: Expect Frequent Updates.
 
-This extension is currently targeting GNOME. To use it, you need to have the [Gnome Window Calls extension](https://github.com/gnikolaos/gnome-window-calls) installed.
-As the extension evolves and reaches a stable state, I plan to abstract its functionality to support additional desktop environments.
-
 
 ## Demo
 ![App Demo](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-demo.gif?raw=true)
 
 
+## Prerequisites
+
+* **GNOME Desktop Environment**
+* **Window Commander:** To use this extension, you'll need the [Window Commander](https://github.com/gnikolaos/window-commander) gnome extension installed.
+
+As the extension evolves and reaches a more mature state, I plan to abstract its core functionality, enabling it to support additional desktop environments.
+
+
 ## Features
 
-- Move and Resize Up/Down/Left/Right: Move the focused window to the edge of the screen in any direction.
-- Move and Resize Center/Center Half/Center Three Fourths: Move and Resize the focused window to the center of the screen.
-- Move and Resize First Fourth/First Three Fourths/Last Fourth/Last Three Fourths: Move and Resize the focused window to the sides of the screen.
+- Place Top/Bottom/Left/Right: Move and resize the focused window to the edge of the screen in any direction.
+- Place Center/Center Half/Center Three Fourths: Move and Resize the focused window to the center of the screen.
+- Place First Fourth/First Three Fourths/Last Fourth/Last Three Fourths: Move and Resize the focused window to the sides of the screen.
+- Workspace Move: Move the focused window to the Next/Previous desktop, switch to that and retain focus.
 - Almost Maximize: Resize the focused window to cover 96% of the screen's width and height, leaving a 2% margin around all sides.
 - Maximize: Maximize the focused window to fit the screen.
 - Unmaximize: Restore the focused window to its previous state.
+- Close: Close the focused window.
 
 
 ## How it works (primarily for extension developers)
