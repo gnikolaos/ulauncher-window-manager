@@ -90,6 +90,20 @@
       "description": "Almost maximize focused window"
     },
     {
+      "id": "next-desktop",
+      "type": "keyword",
+      "name": "Next Desktop",
+      "default_value": "Next Desktop",
+      "description": "Move focused window to next desktop"
+    },
+    {
+      "id": "previous-desktop",
+      "type": "keyword",
+      "name": "Previous Desktop",
+      "default_value": "Previous Desktop",
+      "description": "Move focused window to previous desktop"
+    },
+    {
       "id": "maximize",
       "type": "keyword",
       "name": "Maximize",

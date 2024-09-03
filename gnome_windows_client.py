@@ -1,11 +1,12 @@
 import json
 from dataclasses import dataclass
-from typing import List, Optional, Type, TypeVar, Union
+from typing import List, Literal, Optional, Type, TypeVar, Union
 
 from dbus import Interface, SessionBus
 
 
 T = TypeVar("T")
+WorkspaceDirection = Literal["left", "right"]
 
 
 @dataclass
@@ -101,8 +102,8 @@ class GnomeWindowsExtensionClient:
         return self._parse_response_to_object(response, FocusedMonitorDetails)[0]
 
     # Actions
-    def move_to_workspace(self, winid: int, workspace_num: int):
-        self.interface.MoveToWorkspace(winid, workspace_num)
+    def move_to_workspace(self, winid: int, direction: WorkspaceDirection):
+        self.interface.MoveToWorkspace(winid, direction)
 
     def place(self, winid: int, x: int, y: int, width: int, height: int):
         self.interface.Place(winid, x, y, width, height)
