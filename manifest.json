@@ -118,6 +118,13 @@
       "description": "Unmaximize focused window"
     },
     {
+      "id": "minimize",
+      "type": "keyword",
+      "name": "Minimize",
+      "default_value": "Minimize",
+      "description": "Minimize focused window"
+    },
+    {
       "id": "close",
       "type": "keyword",
       "name": "Close",

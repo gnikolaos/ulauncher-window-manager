@@ -17,10 +17,16 @@ PlaceAction = Tuple[Literal["place"], int, int, int, int]
 WorkspaceMove = Tuple[Literal["workspace-move"], WorkspaceDirection]
 MaximizeAction = Tuple[Literal["maximize"]]
 UnmaximizeAction = Tuple[Literal["unmaximize"]]
+MinimizeAction = Tuple[Literal["minimize"]]
 CloseAction = Tuple[Literal["close"]]
 
 WindowAction = Union[
-    PlaceAction, WorkspaceMove, MaximizeAction, UnmaximizeAction, CloseAction
+    PlaceAction,
+    WorkspaceMove,
+    MaximizeAction,
+    UnmaximizeAction,
+    MinimizeAction,
+    CloseAction,
 ]
 
 
@@ -138,6 +144,7 @@ def WindowManagerAction(action):
         "previous-desktop": ("workspace-move", "left"),
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
+        "minimize": ("minimize",),
         "close": ("close",),
     }
 
@@ -164,6 +171,8 @@ def WindowManagerAction(action):
                 client.maximize(focused_window_id)
             case "unmaximize":
                 client.unmaximize(focused_window_id)
+            case "minimize":
+                client.minimize(focused_window_id)
             case "close":
                 client.close(focused_window_id)
 
