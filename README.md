@@ -1,12 +1,12 @@
 # Ulauncher Window Manager
 
-An extension for organizing and controlling your open windows.![App Cover](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-cover.jpg?raw=true)
+An extension for organizing and controlling your open windows.![App Cover](https://i.imghippo.com/files/hzXCQ1725610443.jpg)
 
 Work in Progress: Expect Frequent Updates.
 
 
 ## Demo
-![App Demo](https://github.com/gnikolaos/ulauncher-window-manager/blob/main/images/wm-demo.gif?raw=true)
+![App Demo](https://i.imghippo.com/files/SlQXm1725610578.gif)
 
 
 ## Prerequisites
