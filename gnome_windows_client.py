@@ -93,7 +93,7 @@ class GnomeWindowsExtensionClient:
         return self._parse_response_to_object(response, PartialWindow)
 
     def get_window_details(self, winid: int) -> Window:
-        response = self.interface.Details(winid)
+        response = self.interface.GetDetails(winid)
         windows = self._parse_response_to_object(response, Window)
         return windows[0]
 
