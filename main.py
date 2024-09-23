@@ -48,96 +48,95 @@ class KeywordQueryEventListener(EventListener):
 
 
 def WindowManagerAction(action):
-    monitor_geometry = client.get_focused_monitor_details().geometry
-    monitor_of_focus = mh.get_monitor_of_focused_window(client)
-    if monitor_of_focus is None:
+    monitor_of_focused_window = mh.get_monitor_of_focused_window(client)
+    if monitor_of_focused_window is None:
         logger.error("Cannot find the monitor of the focused window")
         return
-    monitor_work_area = monitor_of_focus.workArea
+    monitor_work_area = monitor_of_focused_window.workArea
 
     window_manager_actions: dict[str, WindowAction] = {
         "top-half": (
             "place",
-            monitor_geometry.x,
+            monitor_work_area.x,
             monitor_work_area.y,
-            monitor_geometry.width,
+            monitor_work_area.width,
             monitor_work_area.height // 2,
         ),
         "bottom-half": (
             "place",
-            monitor_geometry.x,
+            monitor_work_area.x,
             monitor_work_area.y + monitor_work_area.height // 2,
-            monitor_geometry.width,
+            monitor_work_area.width,
             monitor_work_area.height // 2,
         ),
         "left-half": (
             "place",
-            monitor_geometry.x,
+            monitor_work_area.x,
             monitor_work_area.y,
-            monitor_geometry.width // 2,
+            monitor_work_area.width // 2,
             monitor_work_area.height,
         ),
         "right-half": (
             "place",
-            monitor_geometry.x + monitor_geometry.width // 2,
+            monitor_work_area.x + monitor_work_area.width // 2,
             monitor_work_area.y,
-            monitor_geometry.width // 2,
+            monitor_work_area.width // 2,
             monitor_work_area.height,
         ),
         "center": (
             "place",
-            monitor_geometry.x + monitor_geometry.width // 4,
+            monitor_work_area.x + monitor_work_area.width // 4,
             monitor_work_area.y + monitor_work_area.height // 4,
-            monitor_geometry.width // 2,
+            monitor_work_area.width // 2,
             monitor_work_area.height // 2,
         ),
         "center-half": (
             "place",
-            monitor_geometry.x + monitor_geometry.width // 4,
+            monitor_work_area.x + monitor_work_area.width // 4,
             monitor_work_area.y,
-            monitor_geometry.width // 2,
+            monitor_work_area.width // 2,
             monitor_work_area.height,
         ),
         "center-three-fourths": (
             "place",
-            monitor_geometry.x + monitor_geometry.width // 8,
+            monitor_work_area.x + monitor_work_area.width // 8,
             monitor_work_area.y + int(monitor_work_area.height * 0.075),
-            (monitor_geometry.width * 3) // 4,
+            (monitor_work_area.width * 3) // 4,
             int(monitor_work_area.height * 0.85),
         ),
         "first-three-fourths": (
             "place",
-            monitor_geometry.x,
+            monitor_work_area.x,
             monitor_work_area.y,
-            int(monitor_geometry.width * 0.75),
+            int(monitor_work_area.width * 0.75),
             monitor_work_area.height,
         ),
         "last-three-fourths": (
             "place",
-            monitor_geometry.x + int(monitor_geometry.width * 0.25),
+            monitor_work_area.x + int(monitor_work_area.width * 0.25),
             monitor_work_area.y,
-            int(monitor_geometry.width * 0.75),
+            int(monitor_work_area.width * 0.75),
             monitor_work_area.height,
         ),
         "first-fourth": (
             "place",
-            monitor_geometry.x,
+            monitor_work_area.x,
             monitor_work_area.y,
-            int(monitor_geometry.width * 0.25),
+            int(monitor_work_area.width * 0.25),
             monitor_work_area.height,
         ),
         "last-fourth": (
             "place",
-            monitor_geometry.x + int(monitor_geometry.width * 0.75),
+            monitor_work_area.x + int(monitor_work_area.width * 0.75),
             monitor_work_area.y,
-            int(monitor_geometry.width * 0.25),
+            int(monitor_work_area.width * 0.25),
             monitor_work_area.height,
         ),
         "almost-maximize": (
             "place",
-            monitor_geometry.x + int(monitor_geometry.width * 0.02),
+            monitor_work_area.x + int(monitor_work_area.width * 0.02),
             monitor_work_area.y + int(monitor_work_area.height * 0.02),
-            int(monitor_geometry.width * 0.96),
+            int(monitor_work_area.width * 0.96),
             int(monitor_work_area.height * 0.96),
         ),
         "next-desktop": ("workspace-move", "right"),
