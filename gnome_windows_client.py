@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass
-from typing import List, Literal, Optional, Type, TypeVar, Union
+from typing import List, Literal, Optional, Type, TypeVar
 
 from dbus import Interface, SessionBus
 
