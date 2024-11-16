@@ -2,8 +2,6 @@
 
 An extension for organizing and controlling your open windows.![App Cover](https://i.imghippo.com/files/hzXCQ1725610443.jpg)
 
-Work in Progress: Expect Frequent Updates.
-
 
 ## Demo
 ![App Demo](https://i.imghippo.com/files/SlQXm1725610578.gif)
