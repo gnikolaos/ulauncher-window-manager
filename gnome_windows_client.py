@@ -4,9 +4,8 @@ from typing import List, Literal, Optional, Type, TypeVar
 
 from dbus import Interface, SessionBus
 
-
 T = TypeVar("T")
-WorkspaceDirection = Literal["left", "right"]
+WorkspaceAndMonitorDirection = Literal["left", "right"]
 
 
 @dataclass
@@ -102,8 +101,11 @@ class GnomeWindowsExtensionClient:
         return self._parse_response_to_object(response, FocusedMonitorDetails)[0]
 
     # Actions
-    def move_to_workspace(self, winid: int, direction: WorkspaceDirection):
+    def move_to_workspace(self, winid: int, direction: WorkspaceAndMonitorDirection):
         self.interface.MoveToWorkspace(winid, direction)
+
+    def move_to_monitor(self, winid: int, direction: WorkspaceAndMonitorDirection):
+        self.interface.MoveToMonitor(winid, direction)
 
     def place(self, winid: int, x: int, y: int, width: int, height: int):
         self.interface.Place(winid, x, y, width, height)

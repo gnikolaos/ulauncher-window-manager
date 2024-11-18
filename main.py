@@ -8,13 +8,17 @@ from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 from ulauncher.api.shared.event import KeywordQueryEvent
 
 import monitor_helper as mh
-from gnome_windows_client import GnomeWindowsExtensionClient, WorkspaceDirection
+from gnome_windows_client import (
+    GnomeWindowsExtensionClient,
+    WorkspaceAndMonitorDirection,
+)
 
 logger = logging.getLogger(__name__)
 
 # Window Manager actions types
 PlaceAction = Tuple[Literal["place"], int, int, int, int]
-WorkspaceMove = Tuple[Literal["workspace-move"], WorkspaceDirection]
+WorkspaceMove = Tuple[Literal["workspace-move"], WorkspaceAndMonitorDirection]
+MonitorMove = Tuple[Literal["monitor-move"], WorkspaceAndMonitorDirection]
 MaximizeAction = Tuple[Literal["maximize"]]
 UnmaximizeAction = Tuple[Literal["unmaximize"]]
 MinimizeAction = Tuple[Literal["minimize"]]
@@ -23,6 +27,7 @@ CloseAction = Tuple[Literal["close"]]
 WindowAction = Union[
     PlaceAction,
     WorkspaceMove,
+    MonitorMove,
     MaximizeAction,
     UnmaximizeAction,
     MinimizeAction,
@@ -141,6 +146,8 @@ def WindowManagerAction(action):
         ),
         "next-desktop": ("workspace-move", "right"),
         "previous-desktop": ("workspace-move", "left"),
+        "right-monitor": ("monitor-move", "right"),
+        "left-monitor": ("monitor-move", "left"),
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
         "minimize": ("minimize",),
@@ -166,6 +173,9 @@ def WindowManagerAction(action):
             case "workspace-move":
                 _, direction = selected_action
                 client.move_to_workspace(focused_window_id, direction)
+            case "monitor-move":
+                _, direction = selected_action
+                client.move_to_monitor(focused_window_id, direction)
             case "maximize":
                 client.maximize(focused_window_id)
             case "unmaximize":
