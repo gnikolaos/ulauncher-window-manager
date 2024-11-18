@@ -104,6 +104,20 @@
       "description": "Move focused window to previous desktop"
     },
     {
+      "id": "left-monitor",
+      "type": "keyword",
+      "name": "Left Monitor",
+      "default_value": "Left Monitor",
+      "description": "Move focused window to left monitor"
+    },
+    {
+      "id": "right-monitor",
+      "type": "keyword",
+      "name": "Right Monitor",
+      "default_value": "Right Monitor",
+      "description": "Move focused window to right monitor"
+    },
+    {
       "id": "maximize",
       "type": "keyword",
       "name": "Maximize",
@@ -129,7 +143,7 @@
       "type": "keyword",
       "name": "Close",
       "default_value": "Close",
-      "description": "Close focused window"
+      "description": "Close focused application"
     }
   ]
 }

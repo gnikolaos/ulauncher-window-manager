@@ -2,8 +2,6 @@
 
 An extension for organizing and controlling your open windows.![App Cover](https://i.imghippo.com/files/hzXCQ1725610443.jpg)
 
-Work in Progress: Expect Frequent Updates.
-
 
 ## Demo
 ![App Demo](https://i.imghippo.com/files/SlQXm1725610578.gif)
@@ -23,6 +21,7 @@ As the extension evolves and reaches a more mature state, I plan to abstract its
 - Place Center/Center Half/Center Three Fourths: Move and Resize the focused window to the center of the screen.
 - Place First Fourth/First Three Fourths/Last Fourth/Last Three Fourths: Move and Resize the focused window to the sides of the screen.
 - Workspace Move: Move the focused window to the Next/Previous desktop, switch to that and retain focus.
+- Monitor Move: Move the focused window to the Left/Right monitor, switch to that and retain focus.
 - Almost Maximize: Resize the focused window to cover 96% of the screen's width and height, leaving a 2% margin around all sides.
 - Maximize: Maximize the focused window to fit the screen.
 - Unmaximize: Restore the focused window to its previous state.
