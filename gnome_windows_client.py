@@ -122,6 +122,9 @@ class GnomeWindowsExtensionClient:
     def unmaximize(self, winid: int):
         self.interface.Unmaximize(winid)
 
+    def toggle_fullscreen(self, winid: int):
+        self.interface.ToggleFullscreen(winid)
+
     def activate(self, winid: int):
         self.interface.Activate(winid)
 

@@ -151,6 +151,13 @@
       "name": "Force Close",
       "default_value": "Force Close",
       "description": "Forcefully close focused application"
+    },
+    {
+      "id": "fullscreen",
+      "type": "keyword",
+      "name": "Fullscreen",
+      "default_value": "Fullscreen",
+      "description": "Toggle fullscreen mode for focused window"
     }
   ]
 }
