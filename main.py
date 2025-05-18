@@ -23,6 +23,7 @@ MaximizeAction = Tuple[Literal["maximize"]]
 UnmaximizeAction = Tuple[Literal["unmaximize"]]
 MinimizeAction = Tuple[Literal["minimize"]]
 CloseAction = Tuple[Literal["close"], bool]
+FullscreenAction = Tuple[Literal["fullscreen"]]
 
 WindowAction = Union[
     PlaceAction,
@@ -32,6 +33,7 @@ WindowAction = Union[
     UnmaximizeAction,
     MinimizeAction,
     CloseAction,
+    FullscreenAction,
 ]
 
 
@@ -151,6 +153,7 @@ def WindowManagerAction(action):
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
         "minimize": ("minimize",),
+        "fullscreen": ("fullscreen",),
         "close": ("close", False),
         "force-close": ("close", True),
     }
@@ -186,6 +189,8 @@ def WindowManagerAction(action):
             case "close":
                 _, is_forced = selected_action
                 client.close(focused_window_id, is_forced)
+            case "fullscreen":
+                client.toggle_fullscreen(focused_window_id)
 
 
 if __name__ == "__main__":
