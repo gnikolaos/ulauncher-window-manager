@@ -22,7 +22,7 @@ MonitorMove = Tuple[Literal["monitor-move"], WorkspaceAndMonitorDirection]
 MaximizeAction = Tuple[Literal["maximize"]]
 UnmaximizeAction = Tuple[Literal["unmaximize"]]
 MinimizeAction = Tuple[Literal["minimize"]]
-CloseAction = Tuple[Literal["close"]]
+CloseAction = Tuple[Literal["close"], bool]
 
 WindowAction = Union[
     PlaceAction,
@@ -151,7 +151,8 @@ def WindowManagerAction(action):
         "maximize": ("maximize",),
         "unmaximize": ("unmaximize",),
         "minimize": ("minimize",),
-        "close": ("close",),
+        "close": ("close", False),
+        "force-close": ("close", True),
     }
 
     if action in window_manager_actions:
@@ -183,7 +184,8 @@ def WindowManagerAction(action):
             case "minimize":
                 client.minimize(focused_window_id)
             case "close":
-                client.close(focused_window_id)
+                _, is_forced = selected_action
+                client.close(focused_window_id, is_forced)
 
 
 if __name__ == "__main__":

@@ -144,6 +144,13 @@
       "name": "Close",
       "default_value": "Close",
       "description": "Close focused application"
+    },
+    {
+      "id": "force-close",
+      "type": "keyword",
+      "name": "Force Close",
+      "default_value": "Force Close",
+      "description": "Forcefully close focused application"
     }
   ]
 }
