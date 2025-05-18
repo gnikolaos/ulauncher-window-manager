@@ -19,6 +19,13 @@ jobs:
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Read extra notes
+      id: extra_notes
+      run: |
+        echo "content<<EOF" >> $GITHUB_OUTPUT
+        cat EXTRA_NOTES >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
     - name: Create Release
       id: create_release
       uses: ncipollo/release-action@v1.14.0
@@ -29,4 +36,6 @@ jobs:
         name: ${{ github.ref_name }}
         body: |
           ${{ steps.changelog.outputs.changelog }}
+
+          ${{ steps.extra_notes.outputs.content }}
         token: ${{ secrets.GITHUB_TOKEN }}
