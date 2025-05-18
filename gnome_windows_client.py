@@ -125,8 +125,8 @@ class GnomeWindowsExtensionClient:
     def activate(self, winid: int):
         self.interface.Activate(winid)
 
-    def close(self, winid: int):
-        self.interface.Close(winid)
+    def close(self, winid: int, isForced=False):
+        self.interface.Close(winid, isForced)
 
     # Composite actions
     def get_focused_window_id(self) -> Optional[int]:
