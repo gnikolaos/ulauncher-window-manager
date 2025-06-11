@@ -24,7 +24,7 @@
       "type": "keyword",
       "name": "Left Half",
       "default_value": "Left Half",
-      "description": "Moe focused window to the left half of the screen"
+      "description": "Move focused window to the left half of the screen"
     },
     {
       "id": "right-half",
